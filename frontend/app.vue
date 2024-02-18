@@ -1,5 +1,5 @@
 <template>
-  <div class="w-screen h-screen flex">
+  <div class="w-screen h-screen flex bg-[#F8F9FB]">
     <div
       class="w-1/5 h-screen bg-[#181f38] pl-2 pr-2 pt-3 pb-3 relative"
       v-show="showSidebar && showLayout"
@@ -39,7 +39,9 @@
       </div>
     </div>
     <div :class="{ 'w-full': !showSidebar, 'w-4/5': showSidebar }">
-      <div class="p-5 relative border-b-[1px] border-solid border-b-[#f0f2f6]">
+      <div
+        class="p-5 relative border-b-[1px] border-solid border-b-[#f0f2f6] bg-white h-[10%]"
+      >
         <UButton
           icon="i-material-symbols-menu-rounded"
           class="mr-2"
@@ -58,7 +60,7 @@
           size="xs"
         ></UButton>
       </div>
-      <div>
+      <div class="h-[90%]">
         <NuxtPage
           :page-key="route => {currentPage=route.name!.toString();return route.fullPath}"
         />
@@ -78,7 +80,7 @@ const links = [
   {
     label: "Inbox",
     icon: "i-heroicons-home",
-    to: "/inbox",
+    to: "/",
   },
   {
     label: "Dashboard",
