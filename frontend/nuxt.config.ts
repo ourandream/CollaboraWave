@@ -6,4 +6,17 @@ export default defineNuxtConfig({
   colorMode: {
     preference: "light",
   },
+  vite: {
+    vue: {
+      template: {
+        compilerOptions: {
+          isCustomElement: (tagName) => {
+            return (
+              tagName === "vue-advanced-chat" || tagName === "emoji-picker"
+            );
+          },
+        },
+      },
+    },
+  },
 });
