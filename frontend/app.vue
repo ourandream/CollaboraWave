@@ -1,5 +1,5 @@
 <template>
-  <div class="w-screen h-screen flex bg-[#F8F9FB]">
+  <div class="w-screen h-screen flex bg-[#F8F9FB] overflow-hidden">
     <div
       class="w-1/5 h-screen bg-[#181f38] pl-2 pr-2 pt-3 pb-3 relative"
       v-show="showSidebar && showLayout"
