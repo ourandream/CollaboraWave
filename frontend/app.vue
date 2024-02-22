@@ -93,9 +93,9 @@ const links = [
     to: `/report`,
   },
   {
-    label: "My to do",
-    icon: "i-material-symbols-featured-play-list-outline",
-    to: "/my-to-do",
+    label: "Documents",
+    icon: "i-material-symbols-edit-document-outline",
+    to: "/documents",
   },
   {
     label: "Calendar",
