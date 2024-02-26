@@ -48,7 +48,7 @@
         </div>
         <div>There is so much great inspiration in the world</div>
         <div v-if="!taskInfo.subTask" class="flex relative">
-          <UAvatar />
+          <UAvatar src="/imgs/avatar.jpg" />
           <div class="flex items-end ml-4">
             <UIcon name="i-material-symbols-alarm-add-outline" />
             <span class="leading-[1em] ml-2 text-sm"> 00:00:00 </span>
