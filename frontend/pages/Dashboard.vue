@@ -1,8 +1,18 @@
 <template>
   <div class="flex">
-    <div class="w-2/3 p-5 pt-0 overflow-auto">
+    <div class="h-[90vh] w-2/3 p-5 pt-0 overflow-y-auto">
       <div class="font-bold text-lg pt-2">User Interface Projects</div>
-      <Task :task-info="task" type="main" v-for="task in tasks" class="mt-3" />
+      <Task
+        :task-info="task"
+        type="main"
+        v-for="(task, index) in tasks"
+        class="mt-3"
+        @done-change="
+          () => {
+            tasks[index].done = !tasks[index].done;
+          }
+        "
+      />
     </div>
     <div class="w-1/3 p-4">
       <div>
@@ -81,42 +91,7 @@
 </template>
 
 <script setup lang="ts">
-const tasks: TaskInfo[] = [
-  {
-    title: "create own types in Nuxt Typescript?",
-    description:
-      "This directory is interesting if you want to learn more about the files Nuxt generates based on your directory structure.",
-    progress: 70,
-    people: ["10051"],
-    done: false,
-    subTask: [
-      {
-        title: "create own types in Nuxt Typescript?",
-        description:
-          "This directory is interesting if you want to learn more about the files Nuxt generates based on your directory structure.",
-        progress: 70,
-        people: ["10051"],
-        done: false,
-      },
-      {
-        title: "create own types in Nuxt Typescript?",
-        description:
-          "This directory is interesting if you want to learn more about the files Nuxt generates based on your directory structure.",
-        progress: 70,
-        people: ["10051"],
-        done: false,
-      },
-    ],
-  },
-  {
-    title: "create own types in Nuxt Typescript?",
-    description:
-      "This directory is interesting if you want to learn more about the files Nuxt generates based on your directory structure.",
-    progress: 70,
-    people: ["10051"],
-    done: false,
-  },
-];
+const tasks: TaskInfo[] = useUserStore().tasks;
 
 const milestones = [
   {

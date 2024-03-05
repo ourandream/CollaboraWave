@@ -15,10 +15,14 @@
           base: 'h-6 w-6 mt-4',
           rounded: 'rounded-full',
         }"
+        @click="emit('doneChange')"
       />
       <div class="w-[90%]">
         <div class="relative">
-          <div class="font-bold text-lg">
+          <div
+            class="font-bold text-lg"
+            :class="{ 'line-through': taskInfo.done }"
+          >
             {{ taskInfo.title }}
           </div>
           <div
@@ -73,6 +77,5 @@
 <script setup lang="ts">
 const props = defineProps<{ taskInfo: TaskInfo; type: "main" | "sub" }>();
 const isMain = computed(() => props.type === "main");
-
-const tasks = [];
+const emit = defineEmits(["doneChange"]);
 </script>

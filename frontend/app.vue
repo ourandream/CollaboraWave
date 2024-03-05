@@ -58,7 +58,36 @@
           icon="i-material-symbols-add-rounded"
           class="absolute right-5"
           size="xs"
+          @click="
+            () => {
+              console.log('click!');
+              showAdd = true;
+            }
+          "
         ></UButton>
+        <UModal v-model="showAdd">
+          <UCard>
+            <template #header>
+              <h2 class="font-bold text-xl">添加项目</h2>
+            </template>
+            <UForm :state="taskToAdd" class="space-y-2">
+              <UFormGroup label="项目名">
+                <UInput v-model="taskToAdd.title" />
+              </UFormGroup>
+              <UFormGroup label="项目描述">
+                <UTextarea v-model="taskToAdd.description" />
+              </UFormGroup>
+              <UFormGroup label="成员">
+                <USelectMenu
+                  v-model="taskToAdd.people"
+                  :options="peoples"
+                  multiple
+                />
+              </UFormGroup>
+              <UButton @click="addTask">add</UButton>
+            </UForm>
+          </UCard>
+        </UModal>
       </div>
       <div class="h-[90%]">
         <NuxtPage
@@ -66,6 +95,7 @@
         />
       </div>
     </div>
+    <UNotifications />
   </div>
 </template>
 
@@ -111,4 +141,19 @@ const links = [
 
 const showSidebar = ref(true);
 const showLayout = ref(true);
+
+const showAdd = ref(false);
+const taskToAdd = ref<TaskInfo>({
+  title: "create own types in Nuxt Typescript?",
+  description:
+    "This directory is interesting if you want to learn more about the files Nuxt generates based on your directory structure.",
+  progress: 0,
+  people: [],
+  done: false,
+});
+const peoples = ["Andy", "Bob", "John"];
+function addTask() {
+  useUserStore().tasks.push({ ...taskToAdd.value });
+  useToast().add({ title: "Add success!" });
+}
 </script>

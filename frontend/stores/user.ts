@@ -1,6 +1,42 @@
 export const useUserStore = defineStore("userStore", {
   state: () => ({
     token: null as null | string,
+    tasks: [
+      {
+        title: "create own types in Nuxt Typescript?",
+        description:
+          "This directory is interesting if you want to learn more about the files Nuxt generates based on your directory structure.",
+        progress: 70,
+        people: ["10051"],
+        done: false,
+        subTask: [
+          {
+            title: "create own types in Nuxt Typescript?",
+            description:
+              "This directory is interesting if you want to learn more about the files Nuxt generates based on your directory structure.",
+            progress: 70,
+            people: ["10051"],
+            done: false,
+          },
+          {
+            title: "create own types in Nuxt Typescript?",
+            description:
+              "This directory is interesting if you want to learn more about the files Nuxt generates based on your directory structure.",
+            progress: 70,
+            people: ["10051"],
+            done: false,
+          },
+        ],
+      },
+      {
+        title: "create own types in Nuxt Typescript?",
+        description:
+          "This directory is interesting if you want to learn more about the files Nuxt generates based on your directory structure.",
+        progress: 70,
+        people: ["10051"],
+        done: false,
+      },
+    ] as TaskInfo[],
   }),
   actions: {
     isAuth() {
@@ -9,8 +45,5 @@ export const useUserStore = defineStore("userStore", {
       }
       return true;
     },
-  },
-  persist: {
-    storage: persistedState.localStorage,
   },
 });
