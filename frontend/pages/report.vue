@@ -1,13 +1,16 @@
 <template>
-  <div class="p-3">
+  <div class="p-3 h-[90vh] overflow-y-auto">
     <UCard>
       <VChart class="h-[300px]" :option="option" />
+    </UCard>
+    <UCard class="mt-4">
+      <VChart class="h-[300px]" :option="option2" />
     </UCard>
   </div>
 </template>
 
 <script setup lang="ts">
-import { use, util } from "echarts/core";
+import { use } from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
 import { LineChart, PieChart } from "echarts/charts";
 import {
@@ -73,6 +76,27 @@ const option = {
         { value: 484, name: "Union Ads" },
         { value: 300, name: "Video Ads" },
       ],
+    },
+  ],
+};
+
+const option2 = {
+  title: {
+    text: "本周任务",
+    subtext: "Test Data",
+    left: "left",
+  },
+  xAxis: {
+    type: "category",
+    data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+  },
+  yAxis: {
+    type: "value",
+  },
+  series: [
+    {
+      data: [5, 3, 1, 4, 5, 7, 0],
+      type: "line",
     },
   ],
 };
