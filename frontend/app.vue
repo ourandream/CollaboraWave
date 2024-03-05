@@ -33,9 +33,24 @@
       <div
         class="absolute w-full left-0 bottom-0 pl-5 pr-5 pb-2 pt-2 border-t-[1px] border-t-[#323f5e] border-solid"
       >
-        <UButton size="2xs" icon="i-material-symbols-person-apron-outline" block
+        <UButton
+          size="2xs"
+          icon="i-material-symbols-person-apron-outline"
+          block
+          @click="showAddPeople = true"
           >invite</UButton
         >
+        <UModal v-model="showAddPeople">
+          <UCard>
+            <template #header>
+              <h2 class="font-bold text-xl">邀请人员</h2>
+            </template>
+            <UFormGroup label="名字">
+              <UInput v-model="people" />
+            </UFormGroup>
+            <UButton class="mt-2" block @click="addPeople">invite</UButton>
+          </UCard>
+        </UModal>
       </div>
     </div>
     <div :class="{ 'w-full': !showSidebar, 'w-4/5': showSidebar }">
@@ -84,7 +99,7 @@
                   multiple
                 />
               </UFormGroup>
-              <UButton @click="addTask">add</UButton>
+              <UButton @click="addTask" block>add</UButton>
             </UForm>
           </UCard>
         </UModal>
@@ -151,9 +166,21 @@ const taskToAdd = ref<TaskInfo>({
   people: [],
   done: false,
 });
-const peoples = ["Andy", "Bob", "John"];
+const peoples = useUserStore().people;
 function addTask() {
   useUserStore().tasks.push({ ...taskToAdd.value });
   useToast().add({ title: "Add success!" });
+}
+
+const showAddPeople = ref(false);
+const people = ref("");
+const toBeAddPeople = useUserStore().toBeAddPeople;
+function addPeople() {
+  if (toBeAddPeople.includes(people.value)) {
+    useUserStore().people.push(people.value);
+    useToast().add({ title: "Add new people!" });
+  } else {
+    useToast().add({ title: "People not found!" });
+  }
 }
 </script>

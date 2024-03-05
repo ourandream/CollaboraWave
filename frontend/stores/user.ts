@@ -37,6 +37,8 @@ export const useUserStore = defineStore("userStore", {
         done: false,
       },
     ] as TaskInfo[],
+    people: ["Andy", "Bob", "John"],
+    toBeAddPeople: ["Joa", "Job", "Joc", "Daly"],
   }),
   actions: {
     isAuth() {
