@@ -91,7 +91,7 @@
 </template>
 
 <script setup lang="ts">
-const tasks: TaskInfo[] = useUserStore().tasks;
+const tasks: TaskInfo[] = useAppStore().tasks;
 
 const milestones = [
   {

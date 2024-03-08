@@ -1,9 +1,11 @@
-export const useUserStore = defineStore("userStore", {
+export const useAppStore = defineStore("userStore", {
   state: () => ({
     token: null as null | string,
     tasks: [
       {
         title: "create own types in Nuxt Typescript?",
+        start: new Date("2024-03-08"),
+        end: new Date("2024-03-15"),
         description:
           "This directory is interesting if you want to learn more about the files Nuxt generates based on your directory structure.",
         progress: 70,
@@ -30,6 +32,8 @@ export const useUserStore = defineStore("userStore", {
       },
       {
         title: "create own types in Nuxt Typescript?",
+        start: new Date("2024-03-08"),
+        end: new Date("2024-03-15"),
         description:
           "This directory is interesting if you want to learn more about the files Nuxt generates based on your directory structure.",
         progress: 70,

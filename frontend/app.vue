@@ -92,6 +92,27 @@
               <UFormGroup label="项目描述">
                 <UTextarea v-model="taskToAdd.description" />
               </UFormGroup>
+              <UFormGroup label="开始日期">
+                <input
+                  type="date"
+                  @input="
+                    (e) => {
+                      taskToAdd.start=new Date((e.target as HTMLInputElement).value);
+                    }
+                  "
+                />
+              </UFormGroup>
+              <UFormGroup label="结束日期">
+                <input
+                  type="date"
+                  @input="
+                    (e) => {
+                      taskToAdd.end=new Date((e.target as HTMLInputElement).value);
+                    }
+                  "
+                />
+              </UFormGroup>
+
               <UFormGroup label="成员">
                 <USelectMenu
                   v-model="taskToAdd.people"
@@ -115,6 +136,7 @@
 </template>
 
 <script setup lang="ts">
+import { format } from "date-fns";
 const currentPage = ref("");
 
 const links = [
@@ -160,24 +182,26 @@ const showLayout = ref(true);
 const showAdd = ref(false);
 const taskToAdd = ref<TaskInfo>({
   title: "create own types in Nuxt Typescript?",
+  start: new Date(),
+  end: new Date(),
   description:
     "This directory is interesting if you want to learn more about the files Nuxt generates based on your directory structure.",
   progress: 0,
   people: [],
   done: false,
 });
-const peoples = useUserStore().people;
+const peoples = useAppStore().people;
 function addTask() {
-  useUserStore().tasks.push({ ...taskToAdd.value });
+  useAppStore().tasks.push({ ...taskToAdd.value });
   useToast().add({ title: "Add success!" });
 }
 
 const showAddPeople = ref(false);
 const people = ref("");
-const toBeAddPeople = useUserStore().toBeAddPeople;
+const toBeAddPeople = useAppStore().toBeAddPeople;
 function addPeople() {
   if (toBeAddPeople.includes(people.value)) {
-    useUserStore().people.push(people.value);
+    useAppStore().people.push(people.value);
     useToast().add({ title: "Add new people!" });
   } else {
     useToast().add({ title: "People not found!" });

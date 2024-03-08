@@ -6,7 +6,7 @@ async function submit() {
     method: "post",
     body: loginInfo.value,
   });
-  const userStore = useUserStore();
+  const userStore = useAppStore();
   userStore.token = token;
   useRouter().push("/");
 }
