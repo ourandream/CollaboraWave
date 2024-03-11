@@ -53,9 +53,12 @@
         </UModal>
       </div>
     </div>
-    <div :class="{ 'w-full': !showSidebar, 'w-4/5': showSidebar }">
+    <div
+      :class="{ 'w-full': !showSidebar || !showLayout, 'w-4/5': showSidebar }"
+    >
       <div
         class="p-5 relative border-b-[1px] border-solid border-b-[#f0f2f6] bg-white h-[10%]"
+        v-if="showLayout"
       >
         <UButton
           icon="i-material-symbols-menu-rounded"
@@ -136,7 +139,6 @@
 </template>
 
 <script setup lang="ts">
-import { format } from "date-fns";
 const currentPage = ref("");
 
 const links = [
@@ -177,7 +179,9 @@ const links = [
 ];
 
 const showSidebar = ref(true);
-const showLayout = ref(true);
+const showLayout = computed(() => {
+  return !["", "Login"].includes(currentPage.value);
+});
 
 const showAdd = ref(false);
 const taskToAdd = ref<TaskInfo>({
