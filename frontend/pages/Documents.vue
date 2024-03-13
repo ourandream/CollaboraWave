@@ -26,6 +26,7 @@
                 icon="i-material-symbols-settings-backup-restore"
                 :ui="{ rounded: 'rounded-full' }"
                 color="gray"
+                @click="() => restore(row.index)"
               />
               <UButton
                 icon="i-material-symbols-visibility-outline"
@@ -36,8 +37,8 @@
               />
             </template>
           </UTable>
-          <UModal v-model="showChange"
-            ><UCard class="whitespace-pre-line">{{ showPatch }}</UCard></UModal
+          <UModal v-model="showChange">
+            <UCard class="whitespace-pre-line"> {{ showPatch }}</UCard></UModal
           >
         </UCard>
       </UModal>
@@ -61,7 +62,7 @@
 import { ref } from "vue";
 import { MdEditor } from "md-editor-v3";
 import "md-editor-v3/lib/style.css";
-import { createTwoFilesPatch } from "diff";
+import { createTwoFilesPatch, applyPatch } from "diff";
 import { format } from "date-fns";
 
 const projectDocumentMap = useAppStore().documentInfos;
@@ -129,7 +130,20 @@ const historyColumns = [
 ];
 function restore(index: number) {
   if (currentDocument.value?.type === "md") {
-    const historyNode = currentDocument.value?.info.history;
+    let history = currentDocument.value?.info.history;
+    let result = currentDocument.value.info.startData;
+    history = history.slice(0, index + 1);
+    //apply all patches to get final text
+    for (const historyNode of history) {
+      let temp = applyPatch(result, historyNode.patch);
+      if (temp !== false) {
+        result = temp;
+      }
+    }
+    currentDocument.value.info.history = history;
+    currentDocument.value.info.finalData = result;
+    currentData.value = result;
+    useToast().add({ title: "Restore!" });
   }
 }
 const showChange = ref(false);

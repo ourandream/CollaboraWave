@@ -1,7 +1,7 @@
 export const useAppStore = defineStore("userStore", {
   state: () => ({
     token: null as null | string,
-    userName: "",
+    userName: "Andy",
     tasks: [
       {
         title: "create own types in Nuxt Typescript?",
