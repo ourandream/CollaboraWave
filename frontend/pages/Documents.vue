@@ -1,18 +1,25 @@
 <template>
-  <div class="flex py-2 px-2">
+  <div class="flex py-2 px-2 justify-between w-[35%]">
     <USelect v-model="currentProject" :options="projects" />
     <USelect
-      v-model="currentDocumentType"
+      v-model="currentDocumentKey"
       :options="projectDocuments"
       option-attribute="name"
-      value-attribute="type"
-      class="ml-2"
+      value-attribute="key"
     />
+    <UButton icon="i-material-symbols-history-rounded" square color="gray" />
+    <UButton
+      icon="i-material-symbols-file-save"
+      square
+      color="yellow"
+      @click="save"
+    />
+    <UButton icon="i-material-symbols-add" square />
   </div>
-  <MdEditor v-model="text" v-if="currentDocumentType === 'md'" />
+  <MdEditor v-model="currentData" v-if="currentDocument?.type === 'md'" />
   <div
     id="x-spreadsheet-demo"
-    v-else-if="currentDocumentType === 'spreadsheet'"
+    v-else-if="currentDocument?.type === 'spreadsheet'"
   ></div>
 </template>
 
@@ -20,30 +27,54 @@
 import { ref } from "vue";
 import { MdEditor } from "md-editor-v3";
 import "md-editor-v3/lib/style.css";
-const text = ref("# Hello Editor");
+import { createTwoFilesPatch } from "diff";
 
-const projects = ref(["项目1", "项目2"]);
-const projectDocumentMap = {
-  项目1: [
-    { name: "概要设计", type: "md" },
-    { name: "详细设计", type: "md" },
-  ],
-  项目2: [{ name: "文档1", type: "spreadsheet" }],
-};
-const currentProject = ref<keyof typeof projectDocumentMap>("项目1");
+const projectDocumentMap = useAppStore().documentInfos;
+const projects = computed(() => {
+  return Object.keys(projectDocumentMap);
+});
+const currentProject = ref<keyof typeof projectDocumentMap>("project1");
 const projectDocuments = computed(() => {
   return projectDocumentMap[currentProject.value];
 });
-const currentDocumentType = ref("md");
+const currentDocumentKey = ref("1");
+const currentDocument = computed(() => {
+  if (currentProject.value in projectDocumentMap) {
+    return projectDocumentMap[currentProject.value].find((document) => {
+      return document.key === currentDocumentKey.value;
+    });
+  }
+});
 
-watch(currentDocumentType, async (newType) => {
-  if (newType === "spreadsheet") {
+const currentData = ref();
+currentData.value = currentDocument.value?.info.finalData;
+watch(currentDocument, async (newDocument) => {
+  if (newDocument?.type === "spreadsheet") {
     const { default: Spreadsheet } = await import("x-data-spreadsheet");
     const s = new Spreadsheet("#x-spreadsheet-demo")
       .loadData({}) // load data
       .change((data) => {
         // save data to db
       });
+  } else {
+    currentData.value = newDocument?.info.finalData;
   }
 });
+function save() {
+  if (currentDocument.value?.type === "md") {
+    const patch = createTwoFilesPatch(
+      "oldFile",
+      "newFile",
+      currentDocument.value.info.finalData,
+      currentData.value
+    );
+    currentDocument.value.info.history.push({
+      date: new Date().toString(),
+      author: useAppStore().userName,
+      patch,
+    });
+    currentDocument.value.info.finalData = currentData.value;
+    useToast().add({ title: "Save success!" });
+  }
+}
 </script>

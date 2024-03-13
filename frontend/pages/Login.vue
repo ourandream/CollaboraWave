@@ -19,7 +19,7 @@ async function submit() {
         </p>
         <UForm :state="loginInfo" @submit="submit">
           <UFormGroup label="Username" class="mt-2 mb-2">
-            <UInput v-model="loginInfo.username" placeholder="Email or phone" />
+            <UInput v-model="loginInfo.username" placeholder="Your username" />
           </UFormGroup>
           <UFormGroup label="Passoword" class="mt-2 mb-10">
             <UInput

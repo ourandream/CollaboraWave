@@ -47,7 +47,33 @@ export const useAppStore = defineStore("userStore", {
     peopleAuthorMap: {
       Andy: "/imgs/avatar2.jpg",
     },
+    documentInfos: {
+      project1: [
+        {
+          type: "md",
+          name: "概要设计",
+          key: "1",
+          info: { history: [], finalData: "## abc" },
+        },
+      ],
+      project2: [
+        {
+          type: "spreadsheet",
+          name: "表格1",
+          info: { history: [], finalData: {} },
+          key: "2",
+        },
+      ],
+    } as DocumentInfos,
+    currentKey: 3,
   }),
+  getters: {
+    primaKey(states) {
+      const result = states.currentKey.toString();
+      states.currentKey++;
+      return result;
+    },
+  },
   actions: {
     getAuthor(name: string) {
       if (name in this.peopleAuthorMap) {
@@ -63,4 +89,5 @@ export const useAppStore = defineStore("userStore", {
       return true;
     },
   },
+  persist: true,
 });
