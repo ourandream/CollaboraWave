@@ -2,12 +2,9 @@
 const loginInfo = ref({ username: "", passoword: "" });
 
 async function submit() {
-  const { token } = await apiFetch<{ token: string }>("/user/login", {
-    method: "post",
-    body: loginInfo.value,
-  });
   const userStore = useAppStore();
-  userStore.token = token;
+  userStore.token = "token";
+  userStore.userName = loginInfo.value.username;
   useRouter().push("/");
 }
 </script>

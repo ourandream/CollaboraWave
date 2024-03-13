@@ -1,6 +1,7 @@
 export const useAppStore = defineStore("userStore", {
   state: () => ({
     token: null as null | string,
+    userName: "",
     tasks: [
       {
         title: "create own types in Nuxt Typescript?",
@@ -43,8 +44,18 @@ export const useAppStore = defineStore("userStore", {
     ] as TaskInfo[],
     people: ["Andy", "Bob", "John"],
     toBeAddPeople: ["Joa", "Job", "Joc", "Daly"],
+    peopleAuthorMap: {
+      Andy: "/imgs/avatar2.jpg",
+    },
   }),
   actions: {
+    getAuthor(name: string) {
+      if (name in this.peopleAuthorMap) {
+        return Reflect.get(this.peopleAuthorMap, name) as string;
+      } else {
+        return "/imgs/avatar.jpg";
+      }
+    },
     isAuth() {
       if (this.token === null) {
         return false;
