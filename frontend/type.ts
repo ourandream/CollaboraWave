@@ -12,6 +12,7 @@ declare global {
   }
 
   interface MdFileInfo {
+    startData: string;
     finalData: string;
     /**
      *  Edit history
@@ -20,6 +21,7 @@ declare global {
   }
 
   interface SpreetSheetFileInfo {
+    startData: Record<string, any>;
     finalData: Record<string, any>;
     history: { author: string; date: string; data: string }[];
   }

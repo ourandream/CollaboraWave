@@ -53,14 +53,14 @@ export const useAppStore = defineStore("userStore", {
           type: "md",
           name: "概要设计",
           key: "1",
-          info: { history: [], finalData: "## abc" },
+          info: { history: [], finalData: "## abc", startData: "## abc" },
         },
       ],
       project2: [
         {
           type: "spreadsheet",
           name: "表格1",
-          info: { history: [], finalData: {} },
+          info: { history: [], finalData: {}, startData: {} },
           key: "2",
         },
       ],

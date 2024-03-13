@@ -9,7 +9,38 @@
       class="ml-2"
     />
     <div class="absolute right-0 w-[10%] flex justify-around">
-      <UButton icon="i-material-symbols-history-rounded" square color="gray" />
+      <UButton
+        icon="i-material-symbols-history-rounded"
+        square
+        color="gray"
+        @click="showHistory = true"
+      />
+      <UModal v-model="showHistory">
+        <UCard>
+          <template #header>
+            <h2 class="font-bold">历史记录</h2>
+          </template>
+          <UTable :rows="historyRows" :columns="historyColumns">
+            <template #actions-data="{ row }">
+              <UButton
+                icon="i-material-symbols-settings-backup-restore"
+                :ui="{ rounded: 'rounded-full' }"
+                color="gray"
+              />
+              <UButton
+                icon="i-material-symbols-visibility-outline"
+                :ui="{ rounded: 'rounded-full' }"
+                color="gray"
+                class="ml-2"
+                @click="() => showChangeFun(row.index)"
+              />
+            </template>
+          </UTable>
+          <UModal v-model="showChange"
+            ><UCard class="whitespace-pre-line">{{ showPatch }}</UCard></UModal
+          >
+        </UCard>
+      </UModal>
       <UButton
         icon="i-material-symbols-file-save"
         square
@@ -31,6 +62,7 @@ import { ref } from "vue";
 import { MdEditor } from "md-editor-v3";
 import "md-editor-v3/lib/style.css";
 import { createTwoFilesPatch } from "diff";
+import { format } from "date-fns";
 
 const projectDocumentMap = useAppStore().documentInfos;
 const projects = computed(() => {
@@ -79,5 +111,40 @@ function save() {
     currentDocument.value.info.finalData = currentData.value;
     useToast().add({ title: "Save success!" });
   }
+}
+const showHistory = ref(false);
+const historyRows = computed(() => {
+  return currentDocument.value?.info.history.map((historyNode, index) => {
+    return {
+      ...historyNode,
+      date: format(historyNode.date, "yyyy/MM/dd HH:mm"),
+      index,
+    };
+  });
+});
+const historyColumns = [
+  { key: "author", label: "Author" },
+  { key: "date", label: "Time" },
+  { key: "actions", label: "Action" },
+];
+function restore(index: number) {
+  if (currentDocument.value?.type === "md") {
+    const historyNode = currentDocument.value?.info.history;
+  }
+}
+const showChange = ref(false);
+const showChangeIndex = ref(0);
+const showPatch = computed(() => {
+  const history = currentDocument.value?.info.history;
+  if (history) {
+    if (history.length > showChangeIndex.value) {
+      return Reflect.get(history[showChangeIndex.value], "patch");
+    }
+  }
+});
+function showChangeFun(index: number) {
+  console.log(index);
+  showChangeIndex.value = index;
+  showChange.value = true;
 }
 </script>
