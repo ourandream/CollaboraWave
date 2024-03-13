@@ -1,20 +1,23 @@
 <template>
-  <div class="flex py-2 px-2 justify-between w-[35%]">
+  <div class="flex py-2 px-2">
     <USelect v-model="currentProject" :options="projects" />
     <USelect
       v-model="currentDocumentKey"
       :options="projectDocuments"
       option-attribute="name"
       value-attribute="key"
+      class="ml-2"
     />
-    <UButton icon="i-material-symbols-history-rounded" square color="gray" />
-    <UButton
-      icon="i-material-symbols-file-save"
-      square
-      color="yellow"
-      @click="save"
-    />
-    <UButton icon="i-material-symbols-add" square />
+    <div class="absolute right-0 w-[10%] flex justify-around">
+      <UButton icon="i-material-symbols-history-rounded" square color="gray" />
+      <UButton
+        icon="i-material-symbols-file-save"
+        square
+        color="yellow"
+        @click="save"
+      />
+      <UButton icon="i-material-symbols-add" square />
+    </div>
   </div>
   <MdEditor v-model="currentData" v-if="currentDocument?.type === 'md'" />
   <div
