@@ -23,7 +23,7 @@ declare global {
   interface SpreetSheetFileInfo {
     startData: Record<string, any>;
     finalData: Record<string, any>;
-    history: { author: string; date: string; data: string }[];
+    history: { author: string; date: string; data: Record<string, any> }[];
   }
 
   type DocumentInfos = Record<

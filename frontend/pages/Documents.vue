@@ -34,6 +34,7 @@
                 color="gray"
                 class="ml-2"
                 @click="() => showChangeFun(row.index)"
+                v-if="currentDocument?.type === 'md'"
               />
             </template>
           </UTable>
@@ -84,19 +85,20 @@ const currentDocument = computed(() => {
 
 const currentData = ref();
 currentData.value = currentDocument.value?.info.finalData;
-watch(currentDocument, async (newDocument) => {
-  if (newDocument?.type === "spreadsheet") {
+let spreadsheet: any;
+watch(currentDocumentKey, async () => {
+  if (currentDocument.value?.type === "spreadsheet") {
     const { default: Spreadsheet } = await import("x-data-spreadsheet");
-    const s = new Spreadsheet("#x-spreadsheet-demo")
-      .loadData({}) // load data
-      .change((data) => {
-        // save data to db
-      });
+
+    spreadsheet = new Spreadsheet("#x-spreadsheet-demo").loadData(
+      currentDocument.value?.info.finalData as Record<string, any>
+    ); // load data
   } else {
-    currentData.value = newDocument?.info.finalData;
+    currentData.value = currentDocument.value?.info.finalData;
   }
 });
 function save() {
+  const date = new Date().toString();
   if (currentDocument.value?.type === "md") {
     const patch = createTwoFilesPatch(
       "oldFile",
@@ -105,13 +107,22 @@ function save() {
       currentData.value
     );
     currentDocument.value.info.history.push({
-      date: new Date().toString(),
+      date,
       author: useAppStore().userName,
       patch,
     });
     currentDocument.value.info.finalData = currentData.value;
-    useToast().add({ title: "Save success!" });
+  } else if (currentDocument.value?.type === "spreadsheet") {
+    const data = JSON.parse(JSON.stringify(spreadsheet.getData()[0]));
+    console.log(data);
+    currentDocument.value?.info.history.push({
+      data,
+      date,
+      author: useAppStore().userName,
+    });
+    currentDocument.value.info.finalData = data;
   }
+  useToast().add({ title: "Save success!" });
 }
 const showHistory = ref(false);
 const historyRows = computed(() => {
@@ -144,6 +155,11 @@ function restore(index: number) {
     currentDocument.value.info.finalData = result;
     currentData.value = result;
     useToast().add({ title: "Restore!" });
+  } else if (currentDocument.value?.type === "spreadsheet") {
+    const currentHistoryNode = currentDocument.value.info.history[index];
+    spreadsheet.loadData(currentHistoryNode.data);
+    currentDocument.value.info.history =
+      currentDocument.value.info.history.slice(0, index + 1);
   }
 }
 const showChange = ref(false);
