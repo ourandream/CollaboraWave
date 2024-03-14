@@ -8,7 +8,7 @@
       value-attribute="key"
       class="ml-2"
     />
-    <div class="absolute right-0 w-[10%] flex justify-around">
+    <div class="absolute right-0 w-[7%] flex justify-around">
       <UButton
         icon="i-material-symbols-history-rounded"
         square
@@ -49,7 +49,6 @@
         color="yellow"
         @click="save"
       />
-      <UButton icon="i-material-symbols-add" square />
     </div>
   </div>
   <MdEditor v-model="currentData" v-if="currentDocument?.type === 'md'" />
@@ -97,6 +96,7 @@ watch(currentDocumentKey, async () => {
     currentData.value = currentDocument.value?.info.finalData;
   }
 });
+
 function save() {
   const date = new Date().toString();
   if (currentDocument.value?.type === "md") {
@@ -124,6 +124,7 @@ function save() {
   }
   useToast().add({ title: "Save success!" });
 }
+
 const showHistory = ref(false);
 const historyRows = computed(() => {
   return currentDocument.value?.info.history.map((historyNode, index) => {
