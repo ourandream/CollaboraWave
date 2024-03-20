@@ -19,7 +19,7 @@
 const now = new Date();
 const finalDate = new Date();
 finalDate.setDate(finalDate.getDate() + 15);
-const tasks = useAppStore().tasks;
+const tasks = useAppStore().projects;
 
 const rowLists = computed(() => {
   return tasks.map((task, index) => {

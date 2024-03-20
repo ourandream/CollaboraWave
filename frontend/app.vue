@@ -184,7 +184,7 @@ const showLayout = computed(() => {
 });
 
 const showAdd = ref(false);
-const taskToAdd = ref<TaskInfo>({
+const taskToAdd = ref<ProjectInfo>({
   title: "create own types in Nuxt Typescript?",
   start: new Date(),
   end: new Date(),
@@ -196,7 +196,7 @@ const taskToAdd = ref<TaskInfo>({
 });
 const peoples = useAppStore().people;
 function addTask() {
-  useAppStore().tasks.push({ ...taskToAdd.value });
+  useAppStore().projects.push({ ...taskToAdd.value });
   useToast().add({ title: "Add success!" });
 }
 

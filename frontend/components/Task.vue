@@ -50,8 +50,8 @@
             ></UButton>
           </div>
         </div>
-        <div>There is so much great inspiration in the world</div>
-        <div v-if="!taskInfo.subTask" class="flex relative">
+        <div>{{ taskInfo.description }}</div>
+        <div v-if="!taskInfo.subProject" class="flex relative">
           <UAvatar src="/imgs/avatar.jpg" />
           <div class="flex items-end ml-4">
             <UIcon name="i-material-symbols-alarm-add-outline" />
@@ -67,7 +67,11 @@
           </div>
         </div>
         <div v-else>
-          <Task :task-info="task" type="sub" v-for="task in taskInfo.subTask" />
+          <Task
+            :task-info="task"
+            type="sub"
+            v-for="task in taskInfo.subProject"
+          />
         </div>
       </div>
     </div>
@@ -75,7 +79,7 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{ taskInfo: TaskInfo; type: "main" | "sub" }>();
+const props = defineProps<{ taskInfo: ProjectInfo; type: "main" | "sub" }>();
 const isMain = computed(() => props.type === "main");
 const emit = defineEmits(["doneChange"]);
 </script>

@@ -1,5 +1,5 @@
 declare global {
-  interface TaskInfo {
+  interface ProjectInfo {
     title: string;
     start: Date;
     end: Date;
@@ -8,7 +8,7 @@ declare global {
     done: boolean;
     people: string[];
     tags?: { color: string; content: string }[];
-    subTask?: TaskInfo[];
+    subProject?: ProjectInfo[];
   }
 
   interface MdFileInfo {

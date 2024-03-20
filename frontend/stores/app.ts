@@ -2,46 +2,43 @@ export const useAppStore = defineStore("userStore", {
   state: () => ({
     token: null as null | string,
     userName: "Andy",
-    tasks: [
+    projects: [
       {
-        title: "create own types in Nuxt Typescript?",
+        title: "项目1",
         start: new Date("2024-03-08"),
         end: new Date("2024-03-15"),
-        description:
-          "This directory is interesting if you want to learn more about the files Nuxt generates based on your directory structure.",
+        description: "This is description.",
         progress: 70,
-        people: ["10051"],
+        people: ["Andy", "Joa"],
         done: false,
-        subTask: [
+        subProject: [
           {
-            title: "create own types in Nuxt Typescript?",
-            description:
-              "This directory is interesting if you want to learn more about the files Nuxt generates based on your directory structure.",
+            title: "子项目一",
+            description: "This is description.",
             progress: 70,
             people: ["10051"],
             done: false,
           },
           {
-            title: "create own types in Nuxt Typescript?",
-            description:
-              "This directory is interesting if you want to learn more about the files Nuxt generates based on your directory structure.",
+            title: "子项目二",
+            description: "This is description.",
             progress: 70,
-            people: ["10051"],
+
+            people: ["Andy", "Joa"],
             done: false,
           },
         ],
       },
       {
-        title: "create own types in Nuxt Typescript?",
+        title: "项目二",
         start: new Date("2024-03-08"),
         end: new Date("2024-03-15"),
-        description:
-          "This directory is interesting if you want to learn more about the files Nuxt generates based on your directory structure.",
+        description: "This is description.",
         progress: 70,
-        people: ["10051"],
+        people: ["Andy", "Joa"],
         done: false,
       },
-    ] as TaskInfo[],
+    ] as ProjectInfo[],
     people: ["Andy", "Bob", "John"],
     toBeAddPeople: ["Joa", "Job", "Joc", "Daly"],
     peopleAuthorMap: {
