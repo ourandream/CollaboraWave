@@ -88,7 +88,7 @@
             <template #header>
               <h2 class="font-bold text-xl">添加项目</h2>
             </template>
-            <UForm :state="taskToAdd" class="space-y-2">
+            <UForm :state="taskToAdd" class="space-y-2" :validate="validate">
               <UFormGroup label="项目名">
                 <UInput v-model="taskToAdd.title" />
               </UFormGroup>
@@ -211,4 +211,6 @@ function addPeople() {
     useToast().add({ title: "People not found!" });
   }
 }
+
+function validate() {}
 </script>

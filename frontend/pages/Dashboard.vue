@@ -1,18 +1,29 @@
 <template>
   <div class="flex">
-    <div class="h-[90vh] w-2/3 p-5 pt-0 overflow-y-auto">
-      <div class="font-bold text-lg pt-2">User Interface Projects</div>
-      <Task
-        :task-info="task"
-        type="main"
-        v-for="(task, index) in tasks"
-        class="mt-3"
-        @done-change="
-          () => {
-            tasks[index].done = !tasks[index].done;
-          }
-        "
-      />
+    <div class="h-[90vh] w-2/3 pt-0">
+      <div class="font-bold text-lg pt-2 ml-5 relative">
+        User Interface Projects
+
+        <UButton
+          icon="i-material-symbols-filter-alt-outline"
+          size="2xs"
+          color="white"
+          class="absolute right-0"
+        ></UButton>
+      </div>
+      <div class="h-[80vh] overflow-y-auto p-5">
+        <Task
+          :task-info="task"
+          type="main"
+          v-for="(task, index) in tasks"
+          class="mt-3"
+          @done-change="
+            () => {
+              tasks[index].done = !tasks[index].done;
+            }
+          "
+        />
+      </div>
     </div>
     <div class="w-1/3 p-4">
       <div>

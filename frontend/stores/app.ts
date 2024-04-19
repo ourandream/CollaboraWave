@@ -4,7 +4,7 @@ export const useAppStore = defineStore("userStore", {
     userName: "Andy",
     projects: [
       {
-        title: "项目1",
+        title: "项目一",
         start: new Date("2024-03-08"),
         end: new Date("2024-03-15"),
         description: "This is description.",
