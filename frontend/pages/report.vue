@@ -1,6 +1,16 @@
 <template>
   <div class="p-3 h-[90vh] overflow-y-auto">
     <UCard>
+      <template #header>
+        <h2 class="font-bold text-xl">个人任务</h2>
+        <UTable :rows="taskForCurrentUser">
+          <template #done-data="{ row }">
+            <UToggle v-model="row.done" />
+          </template>
+        </UTable>
+      </template>
+    </UCard>
+    <UCard class="mt-4">
       <VChart class="h-[300px]" :option="option" />
     </UCard>
     <UCard class="mt-4">
@@ -100,4 +110,17 @@ const option2 = {
     },
   ],
 };
+const taskForCurrentUser = computed(() => {
+  const tasks: Task[] = [];
+  const userName = useAppStore().userName;
+  useAppStore().projects.forEach((project) => {
+    project.tasks.forEach((task) => {
+      if (task.people === userName) {
+        tasks.push(task);
+      }
+    });
+  });
+
+  return tasks;
+});
 </script>

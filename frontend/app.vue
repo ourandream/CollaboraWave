@@ -192,6 +192,7 @@ const taskToAdd = ref<ProjectInfo>({
     "This directory is interesting if you want to learn more about the files Nuxt generates based on your directory structure.",
   progress: 0,
   people: [],
+  tasks: [],
   done: false,
 });
 const peoples = useAppStore().people;

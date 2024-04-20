@@ -7,8 +7,16 @@ declare global {
     progress: number;
     done: boolean;
     people: string[];
+    tasks: Task[];
     tags?: { color: string; content: string }[];
     subProject?: ProjectInfo[];
+  }
+
+  interface Task {
+    title: string;
+    description: string;
+    done: boolean;
+    people: string;
   }
 
   interface MdFileInfo {

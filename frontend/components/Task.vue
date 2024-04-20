@@ -47,7 +47,45 @@
               icon="i-material-symbols-more-horiz"
               size="2xs"
               color="white"
+              @click="showTasks = true"
             ></UButton>
+            <UModal v-model="showTasks">
+              <UCard>
+                <template #header>
+                  <div class="relative">
+                    <h2 class="font-bold text-xl">任务列表</h2>
+                    <UButton
+                      class="absolute right-0 top-0"
+                      icon="i-material-symbols-add-rounded"
+                      @click="showAddTask = true"
+                    ></UButton>
+                    <UModal v-model="showAddTask">
+                      <UCard>
+                        <UForm :state="taskToAdd">
+                          <UFormGroup label="Title">
+                            <UInput v-model="taskToAdd.title" />
+                          </UFormGroup>
+                          <UFormGroup label="Description">
+                            <UTextarea v-model="taskToAdd.description" />
+                          </UFormGroup>
+                          <UFormGroup label="People">
+                            <USelectMenu
+                              v-model="taskToAdd.people"
+                              :options="people"
+                            />
+                          </UFormGroup>
+                          <UButton class="mt-4" block @click="addTask"
+                            >Add</UButton
+                          >
+                        </UForm>
+                      </UCard>
+                    </UModal>
+                  </div>
+                </template>
+
+                <UTable :rows="taskInfo.tasks"></UTable
+              ></UCard>
+            </UModal>
           </div>
         </div>
         <div>{{ taskInfo.description }}</div>
@@ -61,9 +99,9 @@
             class="absolute right-0 bottom-0 w-1/2 flex justify-around items-end text-xs"
           >
             <div class="w-1/3 self-center">
-              <UProgress :value="taskInfo.progress" size="sm" />
+              <UProgress :value="progress" size="sm" />
             </div>
-            <div class="leading-[1em]">{{ taskInfo.progress }}% Complete</div>
+            <div class="leading-[1em]">{{ progress }}% Complete</div>
           </div>
         </div>
         <div v-else>
@@ -82,4 +120,27 @@
 const props = defineProps<{ taskInfo: ProjectInfo; type: "main" | "sub" }>();
 const isMain = computed(() => props.type === "main");
 const emit = defineEmits(["doneChange"]);
+const progress = computed(() => {
+  if (!props.taskInfo.tasks || props.taskInfo.tasks.length === 0) {
+    return 0;
+  } else {
+    const tasks = props.taskInfo.tasks;
+    return (tasks.filter((task) => task.done).length / tasks.length) * 100;
+  }
+});
+
+const showTasks = ref(false);
+const showAddTask = ref(false);
+const taskToAdd = ref<Task>({
+  title: "",
+  description: "",
+  done: false,
+  people: "",
+});
+const people = useAppStore().people;
+function addTask() {
+  props.taskInfo.tasks.push({ ...taskToAdd.value });
+  showAddTask.value = false;
+  useToast().add({ title: "Task add!" });
+}
 </script>

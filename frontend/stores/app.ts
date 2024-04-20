@@ -10,24 +10,15 @@ export const useAppStore = defineStore("userStore", {
         description: "This is description.",
         progress: 70,
         people: ["Andy", "Joa"],
-        done: false,
-        subProject: [
+        tasks: [
           {
-            title: "子项目一",
-            description: "This is description.",
-            progress: 70,
-            people: ["10051"],
+            title: "task1",
+            description: "task description",
             done: false,
-          },
-          {
-            title: "子项目二",
-            description: "This is description.",
-            progress: 70,
-
-            people: ["Andy", "Joa"],
-            done: false,
+            people: "Andy",
           },
         ],
+        done: false,
       },
       {
         title: "项目二",
@@ -35,6 +26,7 @@ export const useAppStore = defineStore("userStore", {
         end: new Date("2024-03-15"),
         description: "This is description.",
         progress: 70,
+        tasks: [],
         people: ["Andy", "Joa"],
         done: false,
       },
@@ -72,7 +64,7 @@ export const useAppStore = defineStore("userStore", {
     },
   },
   actions: {
-    getAuthor(name: string) {
+    getAvatar(name: string) {
       if (name in this.peopleAuthorMap) {
         return Reflect.get(this.peopleAuthorMap, name) as string;
       } else {
